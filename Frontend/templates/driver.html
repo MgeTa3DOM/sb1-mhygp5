@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Driver Interface</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #map {
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Driver Interface</h1>
+    <div id="map"></div>
+    <script>
+        var map = L.map('map').setView([46.2167, 6.0833], 13); // Default to Vernier
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        function updateDriverLocation(driverId, lat, lng) {
+            // Add or update marker for driver
+            console.log(`Updating location for driver ${driverId}: ${lat}, ${lng}`);
+        }
+
+        // Fetch and update driver locations periodically
+        function fetchDriverLocations() {
+            fetch('/api/drivers')
+                .then(response => response.json())
+                .then(data => {
+                    Object.entries(data).forEach(([driverId, driverData]) => {
+                        updateDriverLocation(driverId, driverData.location.lat, driverData.location.lng);
+                    });
+                });
+        }
+
+        setInterval(fetchDriverLocations, 5000);
+    </script>
+</body>
+</html>

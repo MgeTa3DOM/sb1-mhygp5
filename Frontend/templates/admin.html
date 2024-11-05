@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        section {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <section>
+        <h2>Orders</h2>
+        <div id="orders"></div>
+    </section>
+    <section>
+        <h2>Drivers</h2>
+        <div id="drivers"></div>
+    </section>
+    <section>
+        <h2>Inventory</h2>
+        <div id="inventory"></div>
+    </section>
+    <script>
+        const ordersDiv = document.getElementById('orders');
+        const driversDiv = document.getElementById('drivers');
+        const inventoryDiv = document.getElementById('inventory');
+
+        function fetchData(url, targetDiv) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    targetDiv.innerHTML = JSON.stringify(data, null, 2);
+                });
+        }
+
+        fetchData('/api/orders', ordersDiv);
+        fetchData('/api/drivers', driversDiv);
+        fetchData('/api/inventory', inventoryDiv);
+    </script>
+</body>
+</html>

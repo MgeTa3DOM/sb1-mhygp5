@@ -134,9 +134,21 @@ class DeliveryOptimizationService {
   }
 
   determineZone(coordinates) {
-    // Implementation of zone determination based on coordinates
-    // This could be based on geofencing or postal code mapping
-    return 'zone1'; // Placeholder
+    const vernier = { lat: 46.2167, lng: 6.0833 };
+    const aeroport = { lat: 46.2381, lng: 6.1092 };
+    const acacias = { lat: 46.1956, lng: 6.1392 };
+
+    const distanceToVernier = this.calculateDistance(coordinates, vernier);
+    const distanceToAeroport = this.calculateDistance(coordinates, aeroport);
+    const distanceToAcacias = this.calculateDistance(coordinates, acacias);
+
+    if (distanceToVernier < distanceToAeroport && distanceToVernier < distanceToAcacias) {
+      return 'Vernier';
+    } else if (distanceToAeroport < distanceToVernier && distanceToAeroport < distanceToAcacias) {
+      return 'Aéroport';
+    } else {
+      return 'Acacias';
+    }
   }
 
   async calculateDistance(point1, point2) {

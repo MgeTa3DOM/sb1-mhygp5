@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client Interface</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #order-status {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #whatsapp-support {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Client Interface</h1>
+    <div id="order-status">
+        <!-- Order status will be displayed here -->
+    </div>
+    <div id="whatsapp-support">
+        <a href="https://wa.me/YOUR_WHATSAPP_NUMBER?text=Order%20Inquiry" target="_blank">Contact Support via WhatsApp</a>
+    </div>
+    <script>
+        const orderStatusDiv = document.getElementById('order-status');
+
+        function fetchOrderStatus() {
+            fetch('/api/orderStatus')
+                .then(response => response.json())
+                .then(data => {
+                    orderStatusDiv.innerHTML = `Order Status: ${data.status}`;
+                });
+        }
+
+        setInterval(fetchOrderStatus, 5000);
+    </script>
+</body>
+</html>
